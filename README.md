@@ -1,3 +1,7 @@
+# Forescout MAR Manager
+
+This app maintains a list of MAR Entries to sync to Forescout (via API calls in an associated Connect App) and adds RBAC controls around the MAR entries and Smartcard authentication.
+
 # GitHub Codespaces ♥️ Django
 
 Welcome to your shiny new Codespace running Django! We've got everything fired up and running for you to explore Django.
