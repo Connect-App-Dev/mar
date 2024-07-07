@@ -4,7 +4,7 @@
     "cpus": 4
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "pip install -r requirements.txt && python manage.py migrate",
+  "updateContentCommand": "python3 -m pip install --upgrade pip && pip install -r requirements.txt && python manage.py migrate",
   "postCreateCommand": "cp .env.example .env",
   "postAttachCommand": {
     "server": "python manage.py runserver"
@@ -12,7 +12,7 @@
   "customizations": {
     "codespaces": {
       "openFiles": [
-        "mar_app/templates/index.html"
+        "mar_project/templates/index.html"
       ]
     },
     "vscode": {
@@ -21,11 +21,12 @@
       ]
     }
   },
-  "portsAttributes": {
-    "8000": {
-      "label": "Application",
-      "onAutoForward": "openPreview"
+  "forwardPorts": [
+    8000
+  ],
+  "features": {
+    "ghcr.io/itsmechlark/features/postgresql:1": {
+      "version": "16"
     }
-  },
-  "forwardPorts": [8000]
+  }
 }

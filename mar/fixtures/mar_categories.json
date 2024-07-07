@@ -1,0 +1,46 @@
+[
+  {
+    "model": "mar.category",
+    "pk": 1,
+    "fields": {
+      "modified_date": "1970-01-01T00:00:00.000Z",
+      "created_date": "1970-01-01T00:00:00.000Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "name": "Computer"
+    }
+  },
+  {
+    "model": "mar.category",
+    "pk": 2,
+    "fields": {
+      "modified_date": "1970-01-01T00:00:00.000Z",
+      "created_date": "1970-01-01T00:00:00.000Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "name": "VoIP"
+    }
+  },
+  {
+    "model": "mar.category",
+    "pk": 3,
+    "fields": {
+      "modified_date": "1970-01-01T00:00:00.000Z",
+      "created_date": "1970-01-01T00:00:00.000Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "name": "Printer"
+    }
+  },
+  {
+    "model": "mar.category",
+    "pk": 4,
+    "fields": {
+      "modified_date": "1970-01-01T00:00:00.000Z",
+      "created_date": "1970-01-01T00:00:00.000Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "name": "Other"
+    }
+  }
+]
