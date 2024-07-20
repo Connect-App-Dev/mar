@@ -46,6 +46,6 @@ Run server:
 ### API
 
 - API docs are at http://[localhost|host]/api/docs
-- API Docs require an active Django Admin Session
-- API queries require a JWT token which uses the username & password of a Django User to convert to a JWT
+- API Docs require an active Django Admin Session (unless in DEBUG mode)
+- API queries require a JWT token (unless in DEBUG mode) which uses the username & password of a Django User to convert to a JWT 
 - For the Forescout Connect App user, it is recommended that the Forescout Django user is Super Admin
