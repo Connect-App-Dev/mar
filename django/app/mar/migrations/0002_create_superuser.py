@@ -22,8 +22,8 @@ def generate_superuser(apps, schema_editor):
            username=USERNAME, password=PASSWORD, email=EMAIL
         )
         # Tell user default password if didn't pull from environment vars
-        if not config("ADMIN_USERNAME", False):
-            logger.info(f'\n\tSuperuser password not in environment vars, set to: "{default_pass}"')
+        if not config("ADMIN_PASSWORD", False):
+            logger.info(f'\n\tSuperuser password not in environment vars, set to: {PASSWORD}')
         else:
             logger.info(f'\tSuperuser password set from ADMIN_PASSWORD environment variable')
             

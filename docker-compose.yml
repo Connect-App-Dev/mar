@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: mar_app_db  
+    image: postgres:12.19-alpine
+    volumes:
+      - mar_app_postgres_data:/var/lib/postgresql/data/
+    environment:
+      - TZ=UTC
+      - PGTZ=UTC
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=secret
+      #- POSTGRES_DB=postgres
+  django:
+    build: ./django
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    environment:
+      - TZ=UTC
+      - TIME_ZONE=UTC
+      - DB_HOST=db
+      - DB_USERNAME=django
+      - DB_PASSWORD=secret
+      - ALLOWED_HOSTS=*
+      - DEBUG=False
+
+volumes:
+  mar_app_postgres_data:

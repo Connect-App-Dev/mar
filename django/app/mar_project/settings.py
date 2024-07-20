@@ -9,8 +9,6 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/topics/settings/
 """
-
-import os
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
@@ -18,25 +16,19 @@ from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY", default='')
+SECRET_KEY = config("SECRET_KEY", default='Sup3rS3cr37!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=True)
+DEBUG = config("DEBUG", default=False, cast=bool)
 
-if config("DEBUG", default=False):
-    CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
+#if DEBUG:
+#    CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-
-if 'CODESPACE_NAME' in os.environ:
-    codespace_name = config("CODESPACE_NAME")
-    codespace_domain = config("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN")
-    CSRF_TRUSTED_ORIGINS = [f'https://{codespace_name}-8000.{codespace_domain}']
 
 # Application definition
 
@@ -64,8 +56,6 @@ MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
-X_FRAME_OPTIONS = "ALLOW-FROM preview.app.github.dev"
-
 ROOT_URLCONF = "mar_project.urls"
 
 TEMPLATES = [
@@ -87,37 +77,27 @@ TEMPLATES = [
 WSGI_APPLICATION = "mar_project.wsgi.application"
 
 # SESSION SETTINGS
-SESSION_EXPIRE_SECONDS = config("SESSION_TIMEOUT_SECONDS", default=600)
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_EXPIRE_SECONDS = config("SESSION_TIMEOUT_SECONDS", default=600, cast=int)
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = config("SESSION_EXPIRE_AFTER_LAST_ACTIVITY", default=True, cast=bool)
 SESSION_TIMEOUT_REDIRECT = '/admin/login'
 NINJA_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=int(config("ACCESS_TOKEN_EXPIRE_SECONDS", default='600'))),
-    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=int(config("SESSION_TIMEOUT_SECONDS", default='600')))
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=config("ACCESS_TOKEN_EXPIRE_SECONDS", default=600, cast=int)),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=config("SESSION_TIMEOUT_SECONDS", default=600, cast=int))
 }
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DB_ENGINE=config("DB_ENGINE", default="django.db.backends.sqlite3")
-DATABASES = {}
-
-if DB_ENGINE == "django.db.backends.sqlite3":
-    DATABASES["default"] = {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("DB_DATABASE", default=config("DB_USERNAME", default='postgres')),
+        "USER": config("DB_USERNAME", default='postgres'),
+        "HOST": config("DB_HOST", default='127.0.0.1'),
+        "PORT": config("DB_PORT", default='5432'),
     }
-else:
-    DATABASES["default"] = {
-        "ENGINE": DB_ENGINE,
-        "NAME": config("DB_DATABASE"),
-        "USER": config("DB_USERNAME"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT"),
-    }
-    if config("DB_PASSWORD"):
-        DATABASES["default"] = {
-            "PASSWORD": config("DB_PASSWORD"),
-        }
+}
+if config("DB_PASSWORD", default=False):
+    DATABASES["default"]["PASSWORD"] = config("DB_PASSWORD")
 
 
 # Password validation
@@ -129,6 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 15,
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -143,13 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = config("TIME_ZONE", default="UTC")
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

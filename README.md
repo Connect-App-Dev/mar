@@ -2,27 +2,35 @@
 
 This app maintains a list of MAR Entries to sync to Forescout (via API calls in an associated Connect App) and adds RBAC controls around the MAR entries and Smartcard authentication.
 
-## GitHub Codespaces ♥️ Django
-
-Welcome to your shiny new Codespace running Django! We've got everything fired up and running for you to explore Django.
-
-You've got a blank canvas to work on from a git perspective as well. There's a single initial commit with what you're seeing right now - where you go from here is up to you!
-
-Everything you do here is contained within this one codespace. There is no repository on GitHub yet. If and when you’re ready you can click "Publish Branch" and we’ll create your repository and push up your project. If you were just exploring then and have no further need for this code then you can simply delete your codespace and it's gone forever.
-
 ## Tech Used
 
+- [Python](https://python.org) for codebase
 - [Django](https://www.djangoproject.com/) for database, ORM, admin interface
 - [Django Ninja](https://django-ninja.dev/) for API
 - [Ninja JWT](https://eadwincode.github.io/django-ninja-jwt/) library to create JWTs for API authentication/authorization
-- Postgresql for Database
-- Docker for packaging everything up
+- [PostgreSQL](https://www.postgresql.org/) for Database
+- [Docker](https://www.docker.com/) for packaging everything up and running
 
 ## Setup
 
-### Random FYSAs
+### Environment
+Read `.env.example` to determine available Environment variables that can/should be set
 
-- The data model allows for the same MAC address to be entered into the system multiple times over. Forescout doesn't like duplicate MACs. Therefore, API responses will only include a single MAC address if there are duplicates -- the most recent (not exceeding `now()`) `effective_date` then the soonest `expire_date`. This is expressed by the following ORM statement: `Mac.objects.filter(Q(Q(expire_date__gte=now) | Q(expire_date__isnull=True))).filter(effective_date__lte=now).order_by('mac', '-effective_date', 'expire_date', 'mac').distinct('mac')`
+### Manually running without Docker
+
+Install dependencies:
+`pip install -r requirements.txt`
+
+Setup .env
+
+Make sure PostgreSQL is running
+
+Run server:
+`python manage.py runserver`
+
+### Random Information
+
+- The data model used in this app allows for the same MAC address to be entered into the system multiple times over, but this is incompatible with adding a MAC address to the MAR in Forescout. Therefore, API responses will only include a single MAC address if there are duplicates -- the most recent (not exceeding `now()`) `effective_date` then the soonest `expire_date`. This is expressed by the following ORM statement: `Mac.objects.filter(Q(Q(expire_date__gte=now) | Q(expire_date__isnull=True))).filter(effective_date__lte=now).order_by('mac', '-effective_date', 'expire_date', 'mac').distinct('mac')`
 
   - IMPORTANT NOTE: This behavior places an explicit dependency on PostgresSQL as the DB. The Combo of `.order_by` and `.distinct` in the SQL allows for this behavior wihtout wasted compute.
 
@@ -37,21 +45,7 @@ Everything you do here is contained within this one codespace. There is no repos
 
 ### API
 
-- API docs are at http://HOST/api/docs
+- API docs are at http://[localhost|host]/api/docs
 - API Docs require an active Django Admin Session
 - API queries require a JWT token which uses the username & password of a Django User to convert to a JWT
 - For the Forescout Connect App user, it is recommended that the Forescout Django user is Super Admin
-
-## Handy Commands
-
-### To collect static files
-
-```python
-python manage.py collectstatic
-```
-
-### To run this application
-
-```python
-python manage.py runserver
-```

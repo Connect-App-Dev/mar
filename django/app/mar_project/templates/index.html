@@ -1,0 +1,33 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Forescout MAR Management App">
+    <meta name="author" content="Clay Colwell">
+    <meta name="theme-color" content="#000000">
+    <title>Forescout MAR Management App</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+
+<body>
+    <div class="App">
+        <header class="App-header">
+            <p>
+                Forescout MAR Management App
+            </p>
+        </header>
+        <p>
+            <a href="./admin">Login</a>
+        </p>
+        <p>
+            <a href="./api/docs">API Documentation (Must login First)</a>
+        </p>
+    </div>
+</body>
+
+</html>

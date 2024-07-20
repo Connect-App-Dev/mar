@@ -43,13 +43,13 @@ class MacAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             # Return all if super admin
-            # logger.debug(f'User {request.user} is Super Admin and can read all MACs')
+            logger.debug(f'User {request.user} is Super Admin and can read all MACs')
             return qs
         else:
             # Otherwise filter to just MACs that are part of a Group that the User (by GroupUserAssignment) has Read to
             # Get list of Groups the User has GroupUserAssignment:Read
             read_groups = list(GroupUserAssignment.objects.filter(user=request.user).filter(read=True).all().values_list('group', flat=True))
-            # logger.debug(f'User {request.user} can read MACs from Group(s): {read_groups}')
+            logger.debug(f'User {request.user} can read MACs from Group(s): {read_groups}')
             return qs.filter(group__in=read_groups)
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
