@@ -14,6 +14,9 @@ from .models import GroupUserAssignment
 
 class MacAdminForm(forms.ModelForm):
     def clean_expire_date(self):
+        # Safety check to make sure Effective Date is present
+        if "effective_date" not in self.cleaned_data:
+            raise ValidationError(f'Effctive Date is mandatory!')
         # Check if selected MAC Group required Expiration Date / Max days
         effective_date = self.cleaned_data["effective_date"]
         expire_date = self.cleaned_data["expire_date"]

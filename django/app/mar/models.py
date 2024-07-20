@@ -83,7 +83,7 @@ class Mac(models.Model):
             MinValueValidator(0, message="0 is the smallest allowable VLAN number")
         ])
     vlan_name = models.CharField("VLAN Name",max_length=128, null=True, blank=True)
-    mar_comment = models.TextField("MAR Comment",null=True, blank=True)
+    mar_comment = models.TextField("MAR Comment", null=True, blank=True)
     # Fields that Forescout can update via it's connect app
     # fsct_added_to_mar = models.BooleanField("Forescout: Added to MAR?", default=False, null=False, blank=False, editable=True)
     # fsct_first_auth = models.DateTimeField("Forescout: First Auth", auto_created=False, auto_now=False, editable=False, null=True, blank=True)
