@@ -9,7 +9,7 @@ class Group(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='%(class)s_user_created_by', on_delete=models.PROTECT, editable=False, blank=False, null=False)
     modified_date = models.DateTimeField("Modified Date", auto_created=True, auto_now=True, editable=False, null=False, blank=False)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='%(class)s_user_modified_by', on_delete=models.PROTECT, editable=False, blank=False, null=False)
-    require_expiration = models.BooleanField("Require Expiration?", default=True, null=False, blank=False, editable=True)
+    require_expiration = models.BooleanField("Require Expiration?", default=False, null=False, blank=False, editable=True)
     max_expire_days = models.PositiveSmallIntegerField("Max Expiration Date from Effective Date (in days)", null=True, blank=True)
     def __str__(self):
         return f'{self.name}'

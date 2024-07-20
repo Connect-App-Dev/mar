@@ -11,6 +11,10 @@ This app maintains a list of MAR Entries to sync to Forescout (via API calls in 
 - [PostgreSQL](https://www.postgresql.org/) for Database
 - [Docker](https://www.docker.com/) for packaging everything up and running
 
+## To Do
+
+In production docker config, run `python manage.py collectstatic` -- Reverse proxy should server static files from the `staticfiles` directory
+
 ## Setup
 
 ### Environment

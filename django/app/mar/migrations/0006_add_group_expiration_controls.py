@@ -22,6 +22,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="group",
             name="require_expiration",
-            field=models.BooleanField(default=True, verbose_name="Require Expiration?"),
+            field=models.BooleanField(default=False, verbose_name="Require Expiration?"),
         ),
     ]

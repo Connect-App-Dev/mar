@@ -2,6 +2,7 @@
 from django.utils import timezone
 from django.db.models import Q, Count
 from .models import Mac, Template, Category, Group, GroupUserAssignment
+from django.contrib.auth.models import User
 from ninja.pagination import RouterPaginated
 from typing import List, Optional
 from ninja import ModelSchema
@@ -23,13 +24,20 @@ class TemplateSchema(ModelSchema):
     class Meta:
         model = Template
         fields = ['id', 'name']
+class UserSchema(ModelSchema):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
 class MacSchema(ModelSchema):
     group: GroupSchema
     template: Optional[TemplateSchema] = None
     category: Optional[CategorySchema] = None
+    created_by: UserSchema
+    modified_by: UserSchema
     class Meta:
         model = Mac
-        fields = ['mac', 'comment', 'created_date', 'effective_date',
+        # add: created_by, modified_by
+        fields = ['mac', 'comment', 'created_date', 'created_by', 'modified_date', 'modified_by', 'effective_date',
                   'expire_date', 'authorization_parameters', 'deny', 'vlan_num', 'vlan_name',
                   'mar_comment']
 
