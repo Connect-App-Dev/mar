@@ -11,7 +11,6 @@ services:
       - PGTZ=UTC
       - POSTGRES_USER=django
       - POSTGRES_PASSWORD=secret
-      #- POSTGRES_DB=postgres
   django:
     build: ./django
     depends_on:
