@@ -4,5 +4,4 @@ staticfiles/
 .env
 .env.dev
 venv/
-docker-compose.dev.yml
 docker-compose.yml
