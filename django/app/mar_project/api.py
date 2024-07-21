@@ -7,12 +7,8 @@ from django.conf import settings
 
 if settings.DEBUG:
     api = NinjaExtraAPI()
-    api.register_controllers(NinjaJWTDefaultController)
 else:
     api = NinjaExtraAPI(docs_decorator=staff_member_required)
-    api.register_controllers(NinjaJWTDefaultController)
 
-if settings.DEBUG:
-    api.add_router("/mar/", mar_router)
-else:
-    api.add_router("/mar/", mar_router, auth=JWTAuth())
+api.register_controllers(NinjaJWTDefaultController)
+api.add_router("/mar/", mar_router, auth=JWTAuth())
